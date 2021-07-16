@@ -1,0 +1,101 @@
+@media only screen and (max-width: 767px) {
+  .alias {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .app-input {
+    text-align: center;
+  }
+  .expiration {
+    flex-direction: column;
+  }
+  .alias > span {
+    margin-top: 1rem;
+  }
+}
+.link-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.password-protect,
+.expiration {
+  display: flex;
+  align-items: center;
+}
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 1rem;
+}
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+.container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+.app-input {
+  border: 1px solid #c7c1c1;
+  border-radius: 5px;
+  padding: 0 15px;
+  margin-top: 1rem;
+  height: 30px;
+}
+.app-input:focus {
+  outline: none;
+}
+.alias > label {
+  font-size: 30px;
+  color: green;
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+}
+.alias > span {
+  margin-left: 1rem;
+}
+.alias > .available {
+  color: green;
+}
+.alias > .notavailable {
+  color: red;
+}
