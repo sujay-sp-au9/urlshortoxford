@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PublicClientApplication } from "@azure/msal-browser";
 import Header from "./Header";
 import Main from "./Main";
@@ -9,12 +9,31 @@ import config from "./config";
 const App = () => {
   let loginTimeoutID = null;
   const [authenticated, setAuthenticated] = useState(false);
+  const [mobileMode, setMobileMode] = useState(false);
   const [user, setUser] = useState(null);
   const [idToken, setIdToken] = useState(null);
   const [username, setUsername] = useState(null);
   const [error, setError] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setMobileMode(true);
+    } else {
+      setMobileMode(false);
+    }
+    const windowResizeEventListener = window.addEventListener("resize", () => {
+      if (window.innerWidth < 768) {
+        setMobileMode(true);
+      } else {
+        setMobileMode(false);
+      }
+    });
+    return () => {
+      window.removeEventListener("resize", windowResizeEventListener);
+    };
+  }, []);
+
+  useEffect(() => {
     let timeoutID;
     if (error) {
       timeoutID = setTimeout(() => {
@@ -103,8 +122,11 @@ const App = () => {
           idToken={idToken}
           username={username}
           setError={setError}
+          mobileMode={mobileMode}
         />
-        {authenticated ? <List idToken={idToken} username={username} /> : null}
+        {authenticated ? (
+          <List idToken={idToken} username={username} mobileMode={mobileMode} />
+        ) : null}
       </div>
     </div>
   );

@@ -43,11 +43,15 @@
 .list-container > p:nth-child(2) {
   margin-top: 1rem;
   width: 90px;
-  height: 20px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #213827;
   color: white;
   text-align: center;
   cursor: pointer;
+  border-radius: 5px;
 }
 .list-container > p:nth-child(2):hover {
   background-color: #305239;
@@ -57,21 +61,13 @@
   flex-direction: column;
   align-items: center;
 }
-.list-container > .list > .list-item {
-  margin: 1rem;
-  display: flex;
-  margin-bottom: 1rem;
+.list > table {
+  margin-top: 1rem;
 }
-.list-container > .list > .list-item:first-child > span {
-  font-weight: bolder;
-  color: rgb(62, 63, 58);
+.list > table > tr > td {
+  padding: 0.2rem 1rem;
 }
-.list-item > .column-1,
-.list-item > .column-2,
-.list-item > .column-3 {
-  margin-right: 1rem;
-}
-.list-item > .column-4 {
+.td-delete {
   width: 70px;
   height: 20px;
   background-color: #f53848;
@@ -79,10 +75,7 @@
   color: antiquewhite;
   border-radius: 5px;
   cursor: pointer;
-}
-.list-item > .column-4:hover {
-  background-color: #8c2a2c;
-}
-.list-item:last-child {
-  margin-bottom: 15vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

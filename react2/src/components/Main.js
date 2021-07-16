@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import LinkOptions from "./LinkOptions";
 
-const Main = ({ idToken, username, authenticated, setError }) => {
+const Main = ({ idToken, username, authenticated, setError, mobileMode }) => {
   const [shorten, setShorten] = useState(true);
-  const [shortURL, setShortURL] = useState(null);
+  const [shortURL, setShortURL] = useState(
+    "gasdkjgaskdasdkjagskjldgasdgasdhksjhad"
+  );
   const [options, setOptions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
@@ -61,6 +63,12 @@ const Main = ({ idToken, username, authenticated, setError }) => {
         setPasswordProtect(false);
         setPassword("");
         setAlias("");
+        setAliasAllowed(true);
+        setUrlTouched(false);
+        setPasswordTouched(false);
+        setUrlError(false);
+        setPasswordError(false);
+        setAliasError(false);
       } else {
         const {
           data: { error },
@@ -152,15 +160,10 @@ const Main = ({ idToken, username, authenticated, setError }) => {
     <div className="main">
       <p>GLAM URL Shortener</p>
       {shortURL ? (
-        <div>
+        <div className="short-url">
           <span style={{ marginRight: "0.5rem" }}>Short URL is </span>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={shortURL}
-            className="short-url"
-          >
-            {shortURL}
+          <a target="_blank" rel="noreferrer" href={shortURL}>
+            {mobileMode ? shortURL.slice(0, 30) + "..." : shortURL}
           </a>
         </div>
       ) : null}

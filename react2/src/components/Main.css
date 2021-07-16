@@ -31,9 +31,7 @@ form {
 .short-url {
   margin-top: 1rem;
   font-size: 20px;
-}
-.short-url-expires {
-  margin-top: 0.5rem;
+  text-align: center;
 }
 .url-input {
   width: 70vw;
@@ -71,11 +69,11 @@ form {
 }
 .form-buttons > button:first-child {
   background-color: #29abe0;
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 }
 .form-buttons > button:last-child {
-  background-color: #f47c3c;
-  margin-left: 0.5rem;
+  background-color: #ce4f0c;
+  margin-left: 0.25rem;
 }
 .app-input:first-of-type {
   width: 220px;

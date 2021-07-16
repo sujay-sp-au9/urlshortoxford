@@ -65,7 +65,7 @@ app.get(
   "/api/:username",
   catchAsync(async (req, res) => {
     const shortUrls = await ShortUrl.find({ user: req.params.username }).sort({
-      clicks: -1,
+      createdAt: -1,
     });
     res.status(200).send({ shortUrls });
   })
@@ -119,7 +119,7 @@ app.get(
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
     if (shortUrl == null) return res.sendStatus(404);
     if (shortUrl.password) {
-      return res.status(200).send({ shortUrl: shortUrl.password });
+      return res.status(200).send({ shortUrl: "password protected" });
     }
     res.status(200).send({ shortUrl });
     shortUrl.clicks++;

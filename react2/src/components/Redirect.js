@@ -52,7 +52,16 @@ const Redirect = () => {
         alignItems: "center",
       }}
     >
-      <h1 style={{ marginBottom: "2rem" }}>{text}</h1>
+      <p
+        style={{
+          fontSize: "5vw",
+          marginBottom: "2rem",
+          color: "rgb(62, 63, 58)",
+        }}
+      >
+        GLAM URL Shortener
+      </p>
+      <h1 style={{ marginBottom: "2rem", color: "rgb(62, 63, 58)" }}>{text}</h1>
       {enablePasswordInput ? (
         <div style={{ display: "flex" }}>
           <input
@@ -67,7 +76,13 @@ const Redirect = () => {
             onKeyPress={handleSubmit}
           />
           <span
-            style={{ marginLeft: "1rem", cursor: "pointer" }}
+            style={{
+              marginLeft: "1rem",
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             onClick={handleSubmit}
           >
             Go

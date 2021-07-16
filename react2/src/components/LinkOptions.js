@@ -46,6 +46,7 @@ const LinkOptions = ({
   }, [aliasDebounce, setAlias, setAliasAllowed]);
   return (
     <div className="link-options">
+      <p>Customize link</p>
       <div className="password-protect">
         <label className="container">
           Public
@@ -55,6 +56,7 @@ const LinkOptions = ({
             checked={!passwordProtect}
             onChange={() => {
               setPassword("");
+              setPasswordTouched(false);
               setPasswordProtect(false);
             }}
             name="radio"

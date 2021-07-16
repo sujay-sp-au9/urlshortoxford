@@ -7,9 +7,6 @@
   .app-input {
     text-align: center;
   }
-  .expiration {
-    flex-direction: column;
-  }
   .alias > span {
     margin-top: 1rem;
   }
@@ -19,8 +16,12 @@
   flex-direction: column;
   align-items: center;
 }
-.password-protect,
-.expiration {
+.link-options > p:first-child {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+.password-protect {
   display: flex;
   align-items: center;
 }
@@ -55,7 +56,7 @@
   background-color: #ccc;
 }
 .container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #244363;
 }
 .checkmark:after {
   content: "";
@@ -77,7 +78,7 @@
   border: 1px solid #c7c1c1;
   border-radius: 5px;
   padding: 0 15px;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   height: 30px;
 }
 .app-input:focus {

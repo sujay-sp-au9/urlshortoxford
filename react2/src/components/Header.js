@@ -13,12 +13,12 @@ const Header = ({ logout, user, login, authenticated }) => {
           <>
             <p>Welcome {user}</p>
             <button className="logout-button" onClick={logout}>
-              Logout
+              Sign out
             </button>
           </>
         ) : (
           <button className="login-button fix-view-button" onClick={login}>
-            Login
+            Sign in with Azure
           </button>
         )}
       </div>
