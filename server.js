@@ -81,7 +81,7 @@ app.post(
         full: req.body.full,
         user: req.body.username,
       });
-      if (shortUrl.length > 0) {
+      if (shortUrl.length > 0 && !shortUrl[0].password) {
         return res.status(200).send({ shortUrl: shortUrl[0] });
       }
     }
