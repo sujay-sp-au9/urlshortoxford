@@ -39,11 +39,6 @@ const authProtect = (req, res, next) => {
         .send({ message: "User not logged in. Unauthorised" });
     }
     const decoded = jsonwebtoken.decode(req.body.idToken);
-    console.log(
-      decoded.aud === process.env.APPID,
-      decoded.exp * 1000 > Date.now(),
-      decoded.preferred_username === req.body.username
-    );
     if (
       !(
         decoded.aud === process.env.APPID &&
@@ -164,7 +159,7 @@ app.delete(
   "/api/shortUrls",
   authProtect,
   catchAsync(async (req, res) => {
-    await ShortUrl.deleteMany({ username: req.body.username });
+    await ShortUrl.deleteMany({ user: req.body.username });
     res.status(204).send({});
   })
 );
