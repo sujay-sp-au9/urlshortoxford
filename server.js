@@ -160,6 +160,15 @@ app.delete(
   })
 );
 
+app.delete(
+  "/api/shortUrls",
+  authProtect,
+  catchAsync(async (req, res) => {
+    await ShortUrl.deleteMany({ username: req.body.username });
+    res.status(204).send({});
+  })
+);
+
 app.get(
   "/api/short/:shortUrl/exists",
   catchAsync(async (req, res) => {
