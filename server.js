@@ -61,10 +61,11 @@ const authProtect = (req, res, next) => {
   next();
 };
 
-app.get(
-  "/api/:username",
+app.post(
+  "/api",
+  authProtect,
   catchAsync(async (req, res) => {
-    const shortUrls = await ShortUrl.find({ user: req.params.username })
+    const shortUrls = await ShortUrl.find({ user: req.body.username })
       .sort({
         createdAt: -1,
       })
@@ -75,6 +76,7 @@ app.get(
 
 app.post(
   "/api/shortUrls",
+  authProtect,
   catchAsync(async (req, res) => {
     if (!req.body.short && !req.body.password) {
       let shortUrl = await ShortUrl.find({
