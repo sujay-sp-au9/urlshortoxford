@@ -70,6 +70,16 @@ app.post(
 );
 
 app.post(
+  "/api/shortUrls/count",
+  catchAsync(async (req, res) => {
+    const count = await ShortUrl.countDocuments({
+      user: req.body.username,
+    });
+    res.status(200).send({ count });
+  })
+);
+
+app.post(
   "/api/shortUrls",
   authProtect,
   catchAsync(async (req, res) => {
