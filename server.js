@@ -64,7 +64,8 @@ app.post(
       .sort({
         createdAt: -1,
       })
-      .limit(5);
+      .skip((req.body.pageNumber - 1) * 10)
+      .limit(10);
     res.status(200).send({ shortUrls });
   })
 );
@@ -157,19 +158,14 @@ app.post(
 );
 
 app.delete(
-  "/api/short/:shortUrlId",
-  authProtect,
-  catchAsync(async (req, res) => {
-    await ShortUrl.findByIdAndDelete(req.params.shortUrlId);
-    res.status(204).send({});
-  })
-);
-
-app.delete(
   "/api/shortUrls",
   authProtect,
   catchAsync(async (req, res) => {
-    await ShortUrl.deleteMany({ user: req.body.username });
+    await ShortUrl.deleteMany({
+      _id: {
+        $in: req.body.ids,
+      },
+    });
     res.status(204).send({});
   })
 );
