@@ -62,7 +62,7 @@ app.post(
   catchAsync(async (req, res) => {
     const shortUrls = await ShortUrl.find({ user: req.body.username })
       .sort({
-        createdAt: -1,
+        createdAt: "desc",
       })
       .skip((req.body.pageNumber - 1) * 10)
       .limit(10);
