@@ -43,7 +43,8 @@ const authProtect = (req, res, next) => {
       !(
         decoded.aud === process.env.APPID &&
         decoded.exp * 1000 > Date.now() &&
-        decoded.preferred_username === req.body.username
+        decoded.preferred_username === req.body.username &&
+        decoded.tid === process.env.TENANTID
       )
     ) {
       return res
