@@ -84,6 +84,7 @@ app.post(
   "/api/shortUrls",
   authProtect,
   catchAsync(async (req, res) => {
+    console.log(req.body);
     if (!req.body.short && !req.body.password) {
       let shortUrl = await ShortUrl.find({
         full: req.body.full,
