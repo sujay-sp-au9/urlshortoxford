@@ -16,7 +16,7 @@ const ShortUrl = require("./models/shortUrl");
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose.connect(
-  process.env.DB_URL.replace("<password>", "lmfao123"),
+  "mongodb://localhost:27017/glamurlshortner",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
