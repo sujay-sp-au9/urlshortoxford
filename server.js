@@ -75,7 +75,7 @@ app.get(
   "/api/shortUrls/count/:user",
   catchAsync(async (req, res) => {
     const count = await ShortUrl.countDocuments({
-      user: req.query.user,
+      user: req.params.user,
     });
     res.status(200).send({ count });
   })
