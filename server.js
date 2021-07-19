@@ -77,6 +77,7 @@ app.get(
     const count = await ShortUrl.countDocuments({
       user: req.query.user,
     });
+    console.log(count);
     res.status(200).send({ count });
   })
 );
