@@ -71,11 +71,11 @@ app.post(
   })
 );
 
-app.post(
-  "/api/shortUrls/count",
+app.get(
+  "/api/shortUrls/count/:user",
   catchAsync(async (req, res) => {
     const count = await ShortUrl.countDocuments({
-      user: req.body.username,
+      user: req.query.user,
     });
     res.status(200).send({ count });
   })
@@ -167,6 +167,15 @@ app.delete(
         $in: req.body.ids,
       },
     });
+    res.status(204).send({});
+  })
+);
+
+app.delete(
+  "/api/shortUrls/all",
+  authProtect,
+  catchAsync(async (req, res) => {
+    await ShortUrl.deleteMany({ user: req.body.username });
     res.status(204).send({});
   })
 );
