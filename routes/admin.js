@@ -14,11 +14,6 @@ const adminProtect = catchAsync(async (req, res, next) => {
   next();
 });
 
-router.post(
-  "/api/admin",
-  authProtect,
-  adminProtect,
-  catchAsync(async (req, res) => {})
-);
+router.post("/api/admin", authProtect, adminProtect);
 
 module.exports = router;
