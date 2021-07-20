@@ -101,7 +101,6 @@ app.post(
       user: req.body.username,
       full: { $regex: new RegExp(req.body.search, "i") },
       short: { $regex: new RegExp(req.body.search2, "i") },
-      status,
     })
       .sort(sort)
       .skip((req.body.pageNumber - 1) * 10)
