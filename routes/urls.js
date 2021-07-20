@@ -4,9 +4,7 @@ const catchAsync = require("../catchAsync");
 
 const router = express.Router();
 
-router.post(
-  "/",
-  authProtect,
+router.post("/", authProtect, (req, res, next) =>
   catchAsync(async (req, res) => {
     let sort;
     switch (req.body.sort) {
@@ -60,8 +58,7 @@ router.post(
   })
 );
 
-router.get(
-  "/shortUrls/count/:user",
+router.get("/shortUrls/count/:user", (req, res, next) =>
   catchAsync(async (req, res) => {
     const count = await ShortUrl.countDocuments({
       user: req.params.user,
@@ -70,9 +67,7 @@ router.get(
   })
 );
 
-router.post(
-  "/shortUrls",
-  authProtect,
+router.post("/shortUrls", authProtect, (req, res, next) =>
   catchAsync(async (req, res) => {
     if (!req.body.short && !req.body.password) {
       let shortUrl = await ShortUrl.find({
@@ -112,8 +107,7 @@ router.post(
   })
 );
 
-router.get(
-  "/short/:shortUrl",
+router.get("/short/:shortUrl", (req, res, next) =>
   catchAsync(async (req, res) => {
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
     if (shortUrl == null) return res.sendStatus(404);
@@ -129,8 +123,7 @@ router.get(
   })
 );
 
-router.post(
-  "/short/:shortUrl",
+router.post("/short/:shortUrl", (req, res, next) =>
   catchAsync(async (req, res) => {
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
     if (shortUrl == null) return res.sendStatus(404);
@@ -150,9 +143,7 @@ router.post(
   })
 );
 
-router.delete(
-  "/shortUrls",
-  authProtect,
+router.delete("/shortUrls", authProtect, (req, res, next) =>
   catchAsync(async (req, res) => {
     await ShortUrl.deleteMany({
       _id: {
@@ -163,9 +154,7 @@ router.delete(
   })
 );
 
-router.put(
-  "/shortUrls",
-  authProtect,
+router.put("/shortUrls", authProtect, (req, res, next) =>
   catchAsync(async (req, res) => {
     await ShortUrl.updateMany(
       {
@@ -177,17 +166,14 @@ router.put(
   })
 );
 
-router.delete(
-  "/shortUrls/all",
-  authProtect,
+router.delete("/shortUrls/all", authProtect, (req, res, next) =>
   catchAsync(async (req, res) => {
     await ShortUrl.deleteMany({ user: req.body.username });
     res.status(204).send({});
   })
 );
 
-router.get(
-  "/short/:shortUrl/exists",
+router.get("/short/:shortUrl/exists", (req, res, next) =>
   catchAsync(async (req, res) => {
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
     if (shortUrl == null) return res.status(200).send({ exists: false });
