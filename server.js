@@ -97,11 +97,15 @@ app.post(
     } else {
       status = undefined;
     }
-    const shortUrls = await ShortUrl.find({
+    let finalObj = {
       user: req.body.username,
       full: { $regex: new RegExp(req.body.search, "i") },
       short: { $regex: new RegExp(req.body.search2, "i") },
-    })
+    };
+    if (status === true || status === false) {
+      finalObj.status = status;
+    }
+    const shortUrls = await ShortUrl.find(finalObj)
       .sort(sort)
       .skip((req.body.pageNumber - 1) * 10)
       .limit(10);
@@ -166,6 +170,9 @@ app.get(
   catchAsync(async (req, res) => {
     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
     if (shortUrl == null) return res.sendStatus(404);
+    if (!shortUrl.status) {
+      return res.status(200).send({ shortUrl: "disabled" });
+    }
     if (shortUrl.password) {
       return res.status(200).send({ shortUrl: "password protected" });
     }
