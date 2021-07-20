@@ -61,10 +61,49 @@ app.post(
   "/api",
   authProtect,
   catchAsync(async (req, res) => {
-    const shortUrls = await ShortUrl.find({ user: req.body.username })
-      .sort({
-        createdAt: "desc",
-      })
+    let sort;
+    switch (req.body.sort) {
+      case "latest":
+        sort = {
+          createdAt: "desc",
+        };
+        break;
+      case "oldest":
+        sort = {
+          createdAt: "asc",
+        };
+        break;
+      case "mostclicked":
+        sort = {
+          clicks: "desc",
+        };
+        break;
+      case "leastclicked":
+        sort = { clicks: "asc" };
+        break;
+      default:
+        sort = {
+          createdAt: "desc",
+        };
+    }
+    let status;
+    const { filter } = req.body;
+    if (filter === 3) {
+      status = undefined;
+    } else if (filter === 2) {
+      status = false;
+    } else if (filter === 1) {
+      status = true;
+    } else {
+      status = undefined;
+    }
+    const shortUrls = await ShortUrl.find({
+      user: req.body.username,
+      full: { $regex: new RegExp(req.body.search, "i") },
+      short: { $regex: new RegExp(req.body.search2, "i") },
+      status,
+    })
+      .sort(sort)
       .skip((req.body.pageNumber - 1) * 10)
       .limit(10);
     res.status(200).send({ shortUrls });
@@ -168,6 +207,20 @@ app.delete(
       },
     });
     res.status(204).send({});
+  })
+);
+
+app.put(
+  "/api/shortUrls",
+  authProtect,
+  catchAsync(async (req, res) => {
+    await ShortUrl.updateMany(
+      {
+        _id: { $in: req.body.ids },
+      },
+      { status: req.body.status }
+    );
+    res.status(200).send({});
   })
 );
 
