@@ -1,5 +1,6 @@
 const express = require("express");
 const catchAsync = require("../catchAsync");
+const jsonwebtoken = require("jsonwebtoken");
 
 const authProtect = (req, res, next) => {
   try {
