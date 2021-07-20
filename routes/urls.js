@@ -1,5 +1,6 @@
 const express = require("express");
 const authProtect = require("../server");
+const catchAsync = require("../catchAsync");
 
 const router = express.Router();
 
