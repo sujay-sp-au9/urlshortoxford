@@ -94,5 +94,3 @@ const httpsServer = https.createServer(
 httpsServer.listen(443, () => {
   console.log("HTTPS Server running on port 443");
 });
-
-module.exports = authProtect;
