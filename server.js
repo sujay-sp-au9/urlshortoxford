@@ -99,8 +99,8 @@ app.post(
     }
     let finalObj = {
       user: req.body.username,
-      full: { $regex: new RegExp(req.body.search, "i") },
-      short: { $regex: new RegExp(req.body.search2, "i") },
+      full: new RegExp(req.body.search, "i"),
+      short: new RegExp(req.body.search2, "i"),
     };
     if (status === true || status === false) {
       finalObj.status = status;
