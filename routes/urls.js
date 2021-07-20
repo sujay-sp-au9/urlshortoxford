@@ -1,7 +1,7 @@
 const express = require("express");
 const catchAsync = require("../catchAsync");
 const jsonwebtoken = require("jsonwebtoken");
-import ShortUrl from "../models/shortUrl";
+const ShortUrl = require("../models/shortUrl");
 
 const router = express.Router();
 
