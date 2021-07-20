@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(mongoSanitize());
 app.use(xssClean());
 
-export const authProtect = (req, res, next) => {
+const authProtect = (req, res, next) => {
   try {
     if (!req.body.idToken || !req.body.username) {
       return res
@@ -94,3 +94,5 @@ const httpsServer = https.createServer(
 httpsServer.listen(443, () => {
   console.log("HTTPS Server running on port 443");
 });
+
+module.exports = authProtect;

@@ -1,5 +1,5 @@
 const express = require("express");
-const { authProtect } = require("../server");
+const authProtect = require("../server");
 
 const router = express.Router();
 
