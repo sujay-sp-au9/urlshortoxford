@@ -1,3 +1,4 @@
+const { Date } = require("mongoose");
 const mongoose = require("mongoose");
 
 const shortUrlSchema = new mongoose.Schema(
@@ -17,6 +18,17 @@ const shortUrlSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    clicksDates: {
+      type: [
+        {
+          date: Date,
+          referrer: String,
+          location: String,
+        },
+      ],
+      required: true,
+      default: [],
     },
     user: {
       type: String,

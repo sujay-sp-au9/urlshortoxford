@@ -8,11 +8,9 @@ const cors = require("cors");
 const app = express();
 const mongoSanitize = require("express-mongo-sanitize");
 const xssClean = require("xss-clean");
-const jsonwebtoken = require("jsonwebtoken");
-const catchAsync = require("./catchAsync");
-const User = require("./models/user");
-const UrlRouter = require("./routes/urls");
-const AdminRouter = require("./routes/admin");
+const authProtect = require("./authProtect");
+const adminConfirm = require("./adminConfirm");
+const UrlRouter = require("./urls");
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -32,48 +30,15 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(mongoSanitize());
 app.use(xssClean());
 
-const authProtect = (req, res, next) => {
-  try {
-    if (!req.body.idToken || !req.body.username) {
-      return res
-        .status(403)
-        .send({ message: "User not logged in. Unauthorised" });
-    }
-    const decoded = jsonwebtoken.decode(req.body.idToken);
-    if (
-      !(
-        decoded.aud === process.env.APPID &&
-        decoded.exp * 1000 > Date.now() &&
-        decoded.preferred_username === req.body.username &&
-        decoded.tid === process.env.TENANTID
-      )
-    ) {
-      return res
-        .status(403)
-        .send({ message: "User not logged in. Unauthorised" });
-    }
-  } catch (err) {
-    console.log(err);
+app.post("/api/authenticate", authProtect, adminConfirm, (req, res) => {
+  const responseObj = {};
+  if (req.user === "admin") {
+    responseObj.admin = true;
   }
-  next();
-};
-
-app.post(
-  "/api/user",
-  authProtect,
-  catchAsync(async (req, res) => {
-    const user = await User.find({ email: req.body.username });
-    if (user.length === 0) {
-      await User.create({ email: req.body.username });
-      res.status(201).send({});
-    } else {
-      res.status(200).send({});
-    }
-  })
-);
+  res.status(200).send(responseObj);
+});
 
 app.use("/api/url", UrlRouter);
-app.use("/api/admin", AdminRouter);
 
 app.use("*", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "index.html"))
@@ -94,5 +59,3 @@ const httpsServer = https.createServer(
 httpsServer.listen(443, () => {
   console.log("HTTPS Server running on port 443");
 });
-
-module.exports = authProtect;
