@@ -8,6 +8,11 @@ module.exports = (req, res, next) => {
         .send({ message: "User not logged in. Unauthorised" });
     }
     const decoded = jsonwebtoken.decode(req.body.accessToken);
+    console.log(
+      decoded.appid === process.env.APPID,
+      decoded.exp * 1000 > Date.now(),
+      decoded.upn === req.body.username || decoded.email === req.body.username
+    );
     if (
       !(
         decoded.appid === process.env.APPID &&
