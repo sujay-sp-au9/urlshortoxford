@@ -1,5 +1,6 @@
 require("dotenv").config();
 const https = require("https");
+const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
@@ -29,6 +30,7 @@ app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(mongoSanitize());
 app.use(xssClean());
+app.use(morgan("dev"));
 
 app.post("/api/authenticate", authProtect, adminConfirm, (req, res) => {
   const responseObj = {};
