@@ -13,8 +13,7 @@ module.exports = (req, res, next) => {
         decoded.appid === process.env.APPID &&
         decoded.exp * 1000 > Date.now() &&
         (decoded.upn === req.body.username ||
-          decoded.email === req.body.username) &&
-        decoded.tid === process.env.TENANTID
+          decoded.email === req.body.username)
       )
     ) {
       return res
