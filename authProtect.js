@@ -8,8 +8,14 @@ module.exports = (req, res, next) => {
         .send({ message: "User not logged in. Unauthorised" });
     }
     const decoded = jsonwebtoken.decode(req.body.accessToken);
+    const findUsername = JSON.stringify(decoded);
     if (
-      !(decoded.appid === process.env.APPID && decoded.exp * 1000 > Date.now())
+      !(
+        decoded.appid === process.env.APPID &&
+        decoded.exp * 1000 > Date.now() &&
+        new RegExp(req.body.username, "i").test(findUsername) &&
+        decoded.tid === process.env.TENANTID
+      )
     ) {
       return res
         .status(403)
