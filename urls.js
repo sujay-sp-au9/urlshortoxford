@@ -106,12 +106,17 @@ const addToUrls = catchAsync(async (req, res) => {
     }
   }
   const createAndSend = async (short) => {
-    const shortUrl = await ShortUrl.create({
+    const dataObj = {
       full: req.body.full,
       short,
       user: req.body.username,
       password: req.body.password,
-    });
+      createdAt: Date.now(),
+    };
+    if (req.body.state) {
+      dataObj.state = "TMP";
+    }
+    const shortUrl = await ShortUrl.create(dataObj);
     res.status(201).send({ shortUrl });
   };
   let short = req.body.short;
@@ -151,6 +156,7 @@ const getFullUrl1 = catchAsync(async (req, res) => {
   if (referrer === "") {
     referrer = "direct";
   }
+  console.log(req.ip);
   let location;
   const reqlocation = http.request(options, function (res) {
     const chunks = [];
