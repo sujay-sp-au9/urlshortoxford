@@ -3,7 +3,7 @@ const catchAsync = require("./catchAsync");
 const ShortUrl = require("./models/shortUrl");
 const authProtect = require("./authProtect");
 const adminProtect = require("./adminProtect");
-const shortId = require("shortid");
+const nanoid = require("nanoid");
 const http = require("https");
 
 const router = express.Router();
@@ -121,10 +121,10 @@ const addToUrls = catchAsync(async (req, res) => {
   };
   let short = req.body.short;
   if (!short) {
-    short = shortId.generate();
+    short = nanoid(9);
     shortUrl = await ShortUrl.find({ short });
     while (shortUrl.length > 0) {
-      short = shortId.generate();
+      short = nanoid(9);
       shortUrl = await ShortUrl.find({ short });
     }
     await createAndSend(short);
