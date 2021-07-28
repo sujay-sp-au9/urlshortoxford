@@ -148,7 +148,7 @@ const getFullUrl1 = catchAsync(async (req, res) => {
   if (referrer === "") {
     referrer = "direct";
   }
-  if (location === undefined) {
+  if (!location) {
     location = "UK";
   }
   shortUrl.clicksDates.push({
