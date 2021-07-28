@@ -9,6 +9,12 @@ module.exports = (req, res, next) => {
     }
     const decoded = jsonwebtoken.decode(req.body.accessToken);
     const findUsername = JSON.stringify(decoded);
+    console.log(
+      decoded.appid === process.env.APPID,
+      decoded.exp * 1000 > Date.now(),
+      new RegExp(req.body.username, "i").test(findUsername),
+      decoded.tid === process.env.TENANTID
+    );
     if (
       !(
         decoded.appid === process.env.APPID &&
