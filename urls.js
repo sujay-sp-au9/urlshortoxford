@@ -4,20 +4,8 @@ const ShortUrl = require("./models/shortUrl");
 const authProtect = require("./authProtect");
 const adminProtect = require("./adminProtect");
 const nanoid = require("nanoid");
-const http = require("https");
 
 const router = express.Router();
-
-const options = {
-  method: "GET",
-  hostname: "freegeoip.app",
-  port: null,
-  path: "/json/",
-  headers: {
-    accept: "application/json",
-    "content-type": "application/json",
-  },
-};
 
 const getAllUrlsOfUser = catchAsync(async (req, res) => {
   let sort;
@@ -156,32 +144,19 @@ const getFullUrl1 = catchAsync(async (req, res) => {
   }
   res.status(200).send({ shortUrl });
   shortUrl.clicks++;
-  let { referrer } = req.query;
+  let { referrer, location } = req.query;
   if (referrer === "") {
     referrer = "direct";
   }
-  console.log(req.ip);
-  let location;
-  const reqlocation = http.request(options, function (res) {
-    const chunks = [];
-    res.on("data", function (chunk) {
-      chunks.push(chunk);
-    });
-    res.on("end", function () {
-      const body = Buffer.concat(chunks);
-      location = JSON.parse(body.toString()).country_code;
-      if (!location) {
-        location = "IN";
-      }
-      shortUrl.clicksDates.push({
-        date: Date.now(),
-        referrer,
-        location: location.toLowerCase(),
-      });
-      shortUrl.save();
-    });
+  if (!location) {
+    location = "UK";
+  }
+  shortUrl.clicksDates.push({
+    date: Date.now(),
+    referrer,
+    location: location.toLowerCase(),
   });
-  reqlocation.end();
+  shortUrl.save();
 });
 
 const getFullUrl2 = catchAsync(async (req, res) => {
@@ -194,62 +169,38 @@ const getFullUrl2 = catchAsync(async (req, res) => {
     if (req.body.password && shortUrl.password === req.body.password) {
       res.status(200).send({ shortUrl });
       shortUrl.clicks++;
-      let { referrer } = req.query;
+      let { referrer, location } = req.query;
       if (referrer === "") {
         referrer = "direct";
       }
-      let location;
-      const reqlocation = http.request(options, function (res) {
-        const chunks = [];
-        res.on("data", function (chunk) {
-          chunks.push(chunk);
-        });
-        res.on("end", function () {
-          const body = Buffer.concat(chunks);
-          location = JSON.parse(body.toString()).country_code;
-          if (!location) {
-            location = "IN";
-          }
-          shortUrl.clicksDates.push({
-            date: Date.now(),
-            referrer,
-            location: location.toLowerCase(),
-          });
-          shortUrl.save();
-        });
+      if (!location) {
+        location = "UK";
+      }
+      shortUrl.clicksDates.push({
+        date: Date.now(),
+        referrer,
+        location: location.toLowerCase(),
       });
-      reqlocation.end();
+      shortUrl.save();
     } else {
       res.status(403).send({ message: "Incorrect password" });
     }
   } else {
     res.status(200).send({ shortUrl });
     shortUrl.clicks++;
-    let { referrer } = req.query;
+    let { referrer, location } = req.query;
     if (referrer === "") {
       referrer = "direct";
     }
-    let location;
-    const reqlocation = http.request(options, function (res) {
-      const chunks = [];
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-      res.on("end", function () {
-        const body = Buffer.concat(chunks);
-        location = JSON.parse(body.toString()).country_code;
-        if (!location) {
-          location = "IN";
-        }
-        shortUrl.clicksDates.push({
-          date: Date.now(),
-          referrer,
-          location: location.toLowerCase(),
-        });
-        shortUrl.save();
-      });
+    if (!location) {
+      location = "UK";
+    }
+    shortUrl.clicksDates.push({
+      date: Date.now(),
+      referrer,
+      location: location.toLowerCase(),
     });
-    reqlocation.end();
+    shortUrl.save();
   }
 });
 
