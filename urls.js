@@ -93,7 +93,11 @@ const countAllUrlsOfUser = catchAsync(async (req, res) => {
 });
 
 const addToUrls = catchAsync(async (req, res) => {
-  if (req.body.short && req.body.short.startsWith("api")) {
+  if (
+    req.body.short &&
+    (req.body.short.startsWith("api") ||
+      req.body.short.startsWith("glamurlshortenerapplication"))
+  ) {
     return res.status(400).send({ message: "Alias not allowed" });
   }
   if (!req.body.short && !req.body.password) {
