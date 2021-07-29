@@ -138,10 +138,10 @@ const addToUrls = catchAsync(async (req, res) => {
 const getFullUrl1 = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
     { short: req.params.shortUrl },
-    "full"
+    "full status password clicks clicksDates"
   );
   if (!shortUrl) return res.status(404).send({ message: "Not found" });
-  if (shortUrl.status === false) {
+  if (!shortUrl.status) {
     return res.status(200).send({ shortUrl: "disabled" });
   }
   if (shortUrl.password) {
@@ -160,14 +160,12 @@ const getFullUrl1 = catchAsync(async (req, res) => {
     date: Date.now(),
     referrer,
     location: location.toLowerCase(),
-  });
-  shortUrl.save();
-});
+  }); status password clicks clicksDates
 
 const getFullUrl2 = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
     { short: req.params.shortUrl },
-    "full"
+    "full status password clicks clicksDates"
   );
   if (!shortUrl) return res.status(404).send({ message: "Not found" });
   if (shortUrl.password) {
