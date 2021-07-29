@@ -160,7 +160,9 @@ const getFullUrl1 = catchAsync(async (req, res) => {
     date: Date.now(),
     referrer,
     location: location.toLowerCase(),
-  }); status password clicks clicksDates
+  });
+  shortUrl.save();
+});
 
 const getFullUrl2 = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
