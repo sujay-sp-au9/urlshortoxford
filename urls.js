@@ -140,8 +140,8 @@ const getFullUrl1 = catchAsync(async (req, res) => {
     { short: req.params.shortUrl },
     "full"
   );
-  if (shortUrl == null) return res.status(404).send({ message: "Not found" });
-  if (!shortUrl.status) {
+  if (!shortUrl) return res.status(404).send({ message: "Not found" });
+  if (shortUrl.status === false) {
     return res.status(200).send({ shortUrl: "disabled" });
   }
   if (shortUrl.password) {
