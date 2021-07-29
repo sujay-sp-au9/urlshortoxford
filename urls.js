@@ -89,8 +89,9 @@ const addToUrls = catchAsync(async (req, res) => {
   ) {
     return res.status(400).send({ message: "Alias not allowed" });
   }
+  let shortUrl;
   if (!req.body.short && !req.body.password) {
-    let shortUrl = await ShortUrl.findOne(
+    shortUrl = await ShortUrl.findOne(
       {
         full: req.body.full,
         user: req.body.username,
@@ -118,7 +119,7 @@ const addToUrls = catchAsync(async (req, res) => {
   let short = req.body.short;
   if (!short) {
     short = nanoid(9);
-    (shortUrl = await ShortUrl.findOne({ short })), "_id";
+    shortUrl = await ShortUrl.findOne({ short }, "_id");
     while (shortUrl) {
       short = nanoid(9);
       shortUrl = await ShortUrl.findOne({ short }, "_id");
