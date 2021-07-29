@@ -4,6 +4,7 @@ const ShortUrl = require("./models/shortUrl");
 const authProtect = require("./authProtect");
 const adminProtect = require("./adminProtect");
 const nanoid = require("nanoid");
+const shortUrl = require("./models/shortUrl");
 
 const router = express.Router();
 
@@ -89,12 +90,15 @@ const addToUrls = catchAsync(async (req, res) => {
     return res.status(400).send({ message: "Alias not allowed" });
   }
   if (!req.body.short && !req.body.password) {
-    let shortUrl = await ShortUrl.find({
-      full: req.body.full,
-      user: req.body.username,
-    });
-    if (shortUrl.length > 0 && !shortUrl[0].password) {
-      return res.status(200).send({ shortUrl: shortUrl[0] });
+    let shortUrl = await ShortUrl.findOne(
+      {
+        full: req.body.full,
+        user: req.body.username,
+      },
+      "short"
+    );
+    if (shortUrl && !shortUrl.password) {
+      return res.status(200).send({ shortUrl });
     }
   }
   const createAndSend = async (short) => {
@@ -114,15 +118,15 @@ const addToUrls = catchAsync(async (req, res) => {
   let short = req.body.short;
   if (!short) {
     short = nanoid(9);
-    shortUrl = await ShortUrl.find({ short });
-    while (shortUrl.length > 0) {
+    (shortUrl = await ShortUrl.findOne({ short })), "_id";
+    while (shortUrl) {
       short = nanoid(9);
-      shortUrl = await ShortUrl.find({ short });
+      shortUrl = await ShortUrl.findOne({ short }, "_id");
     }
     await createAndSend(short);
   } else {
-    let shortUrl = await ShortUrl.find({ short });
-    if (shortUrl.length > 0) {
+    let shortUrl = await ShortUrl.findOne({ short }, "_id");
+    if (shortUrl) {
       res.status(202).send({ error: "ShortURL already exists" });
     } else {
       await createAndSend(short);
@@ -133,7 +137,7 @@ const addToUrls = catchAsync(async (req, res) => {
 const getFullUrl1 = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
     { short: req.params.shortUrl },
-    "full password clicks clicksDates status"
+    "full"
   );
   if (shortUrl == null) return res.status(404).send({ message: "Not found" });
   if (!shortUrl.status) {
@@ -162,7 +166,7 @@ const getFullUrl1 = catchAsync(async (req, res) => {
 const getFullUrl2 = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
     { short: req.params.shortUrl },
-    "full password clicks clicksDates"
+    "full"
   );
   if (!shortUrl) return res.status(404).send({ message: "Not found" });
   if (shortUrl.password) {
@@ -202,15 +206,6 @@ const getFullUrl2 = catchAsync(async (req, res) => {
     });
     shortUrl.save();
   }
-});
-
-const getReferrers = catchAsync(async (req, res) => {
-  const shortUrl = await ShortUrl.findOne(
-    { short: req.params.shortUrl },
-    "referrers"
-  );
-  if (!shortUrl) return res.sendStatus(404);
-  res.status(200).send({ shortUrl });
 });
 
 const getClickDates = catchAsync(async (req, res) => {
@@ -255,7 +250,7 @@ const updateSelectedUrlsStatus = catchAsync(async (req, res) => {
 const checkShortUrlAliasAlreadyExists = catchAsync(async (req, res) => {
   const shortUrl = await ShortUrl.findOne(
     { short: req.params.shortUrl },
-    "clicks"
+    "_id"
   );
   if (shortUrl == null) return res.status(200).send({ exists: false });
   res.status(200).send({ exists: true });
@@ -270,8 +265,7 @@ router.post("/", authProtect, getAllUrlsOfUser);
 router.get("/shortUrls/count/:user", countAllUrlsOfUser);
 router.get("/short/:shortUrl/exists", checkShortUrlAliasAlreadyExists);
 router.post("/shortUrls", authProtect, addToUrls);
-router.get("/short/referrers/:shortUrl", getReferrers);
-router.get("/short/clickDates/:shortUrl", getClickDates);
+router.get("/short/clickdates/:shortUrl", getClickDates);
 router.get("/short/:shortUrl", getFullUrl1);
 router.post("/short/:shortUrl", getFullUrl2);
 router.delete("/shortUrls", authProtect, deleteSelectedUrls);

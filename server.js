@@ -10,7 +10,7 @@ const app = express();
 const mongoSanitize = require("express-mongo-sanitize");
 const xssClean = require("xss-clean");
 const authProtect = require("./authProtect");
-const adminConfirm = require("./adminConfirm");
+const adminProtect = require("./adminProtect");
 const UrlRouter = require("./urls");
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,9 +32,9 @@ app.use(mongoSanitize());
 app.use(xssClean());
 app.use(morgan("dev"));
 
-app.post("/api/authenticate", authProtect, adminConfirm, (req, res) => {
+app.post("/api/authenticate", authProtect, adminProtect, (req, res) => {
   const responseObj = {};
-  if (req.user === "admin") {
+  if (req.user === "adminadminadmin") {
     responseObj.admin = true;
   }
   res.status(200).send(responseObj);
@@ -46,18 +46,20 @@ app.use("*", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "index.html"))
 );
 
-const httpsServer = https.createServer(
-  {
-    key: fs.readFileSync(
-      "/etc/letsencrypt/live/shorturl.cloudmantra.in/privkey.pem"
-    ),
-    cert: fs.readFileSync(
-      "/etc/letsencrypt/live/shorturl.cloudmantra.in/fullchain.pem"
-    ),
-  },
-  app
-);
+// const httpsServer = https.createServer(
+//   {
+//     key: fs.readFileSync(
+//       "/etc/letsencrypt/live/shorturl.cloudmantra.in/privkey.pem"
+//     ),
+//     cert: fs.readFileSync(
+//       "/etc/letsencrypt/live/shorturl.cloudmantra.in/fullchain.pem"
+//     ),
+//   },
+//   app
+// );
 
-httpsServer.listen(443, () => {
-  console.log("HTTPS Server running on port 443");
-});
+// httpsServer.listen(443, () => {
+//   console.log("HTTPS Server running on port 443");
+// });
+
+app.listen(3000);
