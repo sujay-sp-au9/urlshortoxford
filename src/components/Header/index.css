@@ -1,0 +1,91 @@
+@media only screen and (min-width: 539px) {
+  .header {
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+  }
+  .header > div:first-child {
+    margin-left: 1rem;
+  }
+  .header > div:last-child {
+    margin-right: 1rem;
+  }
+  .header > div:first-child > p:last-child {
+    margin-left: 1rem;
+  }
+  .header > div:last-child > p {
+    margin-right: 1rem;
+  }
+}
+@media only screen and (max-width: 539px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    height: 90px;
+  }
+  .header > div:first-child {
+    justify-content: center;
+  }
+  .header > div:first-child > p {
+    position: relative;
+    right: 5px;
+  }
+  .header > div:last-child {
+    margin-top: 5px;
+    width: 90vw;
+    justify-content: space-between;
+  }
+}
+.header {
+  width: 100vw;
+  background-color: rgb(0, 21, 41);
+  color: white;
+  display: flex;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+.header > div:first-child {
+  display: flex;
+  height: 30px;
+  margin-left: 1rem;
+}
+.header > div:first-child > p {
+  text-decoration: none;
+  font-size: large;
+  cursor: pointer;
+}
+.header > div:first-child > img {
+  width: 30px;
+  height: 30px;
+}
+.header > div:last-child {
+  display: flex;
+}
+.fix-view-div {
+  justify-content: center !important;
+}
+.header > div:last-child > p {
+  position: relative;
+  top: 4px;
+}
+.header > div:last-child > .logout-button,
+.header > div:last-child > .login-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+.header > div:last-child > .logout-button {
+  background-color: #f53848;
+}
+.header > div:last-child > .logout-button:hover {
+  background-color: #8c2a2c;
+}
+.header > div:last-child > .login-button {
+  background-color: #37783d;
+  position: relative;
+}
+.header > div:last-child > .login-button:hover {
+  background-color: #244f28;
+}

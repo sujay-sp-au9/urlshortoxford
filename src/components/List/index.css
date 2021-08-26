@@ -1,0 +1,55 @@
+@media only screen and (min-width: 767px) {
+  .list-container {
+    top: 60px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .list-container {
+    top: 90px;
+  }
+}
+.list-container {
+  position: relative;
+  margin-top: 3rem;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.list-container > p:first-child {
+  font-size: 30px;
+  color: rgb(62, 63, 58);
+  text-align: center;
+}
+.list-container > div:nth-child(2) {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.list-container > div:nth-child(2) > div:first-child {
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+  flex-wrap: wrap;
+}
+.list-container > div:nth-child(2) > div:nth-child(2),
+.list-container > div:nth-child(2) > div:nth-child(3) {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 90vw;
+}
+.list-container > div:nth-child(2) > div:nth-child(2) > input {
+  width: 300px;
+  margin-bottom: 1rem;
+}
+.copy-button-list {
+  font-size: 10px;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  background-color: #37783d;
+  color: white;
+  border-radius: 5px;
+  padding: 0 5px;
+}

@@ -1,0 +1,42 @@
+.modal-top-half {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-top-half > .links,
+.modal-top-half > .dates {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-top-half > .links > p {
+  text-align: center;
+}
+.ant-picker-input > input {
+  box-shadow: none !important;
+}
+.modal-bottom-half {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-bottom-half > div:first-child,
+.modal-bottom-half > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.graph-label {
+  margin-bottom: 1rem;
+  text-decoration: underline;
+}
+.modal-world-map {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  text-align: center;
+}
